@@ -92,19 +92,24 @@ public class Graph extends Activity implements View.OnClickListener {
         long maxDT = dbh.getMaxDT();
         long total = (maxDT-minDT)/1000;
         double prev_x = 0;
+        double impPower = 3200.0/3600; // 1кВтч/3200 импульсов
 
-        Cursor cursor = dbh.getReadableDatabase().query(dbh.TABLE_NAME, null, null, null, null, null, null);
+        //Cursor cursor = dbh.getReadableDatabase().query(dbh.TABLE_NAME, null, null, null, null, null,"desc _id");
+        Cursor cursor = dbh.getReadableDatabase().rawQuery("Select dtl from impuls order by dtl asc;",null);
 
         if (!cursor.moveToFirst()) return;
 
-        DataPoint[] data = new DataPoint[cursor.getCount()];
+        int cnt =cursor.getCount();
+        DataPoint[] data = new DataPoint[cnt];
         do{
-            double x = ((cursor.getLong(cursor.getColumnIndex("dtl"))-minDT)/1000);
-            double y = 1000/(cursor.getLong(cursor.getColumnIndex("dtl"))-prev_x);
+            double dtl = cursor.getLong(cursor.getColumnIndex("dtl"));
+            double x = (dtl-minDT)/1000; // секунды от начала
+            double y = 0 ;
+            if (x!=0) y=impPower/(x-prev_x);
 
             data[cursor.getPosition()] = new DataPoint(x,y);
 
-            prev_x = cursor.getLong(cursor.getColumnIndex("dtl"));
+            prev_x = x;
         }while (cursor.moveToNext());
         cursor.close();
 

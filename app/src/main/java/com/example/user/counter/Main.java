@@ -24,7 +24,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onBackPressed() {
 
-        Log.d(LOG_TAG, "tm - " + Calendar.getInstance().getTimeInMillis());
+        Log.d(LOG_TAG, "tm- " + Calendar.getInstance().getTimeInMillis());
 
         if (dbh==null) return;
 
