@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Counter</string>
+    <string name="logo">LOGO</string>
+    <string name="btnStart_text">Старт</string>
+    <string name="btnSettings_text">Настройки</string>
+    <string name="btnGraph_text">График</string>
+    <string name="graphCaption">График изменения мощности</string>
+    <string name="graphLabelPower">график мощности</string>
+</resources>

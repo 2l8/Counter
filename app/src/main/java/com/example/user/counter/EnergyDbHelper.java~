@@ -1,0 +1,46 @@
+package com.example.user.counter;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+/**
+ * Created by user on 29.03.16.
+ */
+public class DbHelper extends SQLiteOpenHelper {
+    private String TableName = "Energy"
+
+    public DbHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+    }
+
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        db.execSQL("CREATE TABLE "+TableName+" (_id PRIMARY KEY AUTOINCREMENT, dt datetime");
+    }
+
+    public long insertNewFlash(){
+        ContentValues values = new ContentValues();
+        values.put("dt", getDateTime());
+        long id =this.getWritableDatabase().insert(TableName, null, values);
+        return id;
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+}
